@@ -193,6 +193,8 @@ Tags enable:
 ```
 azure-ops-lab/
 âââ README.md                    # This file
+âââ docs/
+â   âââ incidents/              # Incident reports and RCAs
 âââ infra/
 â   âââ main.bicep              # Infrastructure as Code definitions
 â   âââ parameters.json         # Deployment parameters
@@ -205,6 +207,16 @@ azure-ops-lab/
         âââ build.yml           # Syntax validation (no Azure creds)
         âââ deploy.yml          # Deployment workflow (manual)
 ```
+
+## Incident History
+
+This project is maintained as a production-like environment. Real operational incidents are documented here to practice incident response and root cause analysis.
+
+| Date | Incident | Impact | Status |
+|------|----------|--------|--------|
+| 2026-02-02 | [GitHub Actions Platform Outage](docs/incidents/2026-02-02-github-actions-platform-outage.md) | CI delayed ~6hrs (upstream Azure issue) | âResolved |
+
+See [docs/incidents/](docs/incidents/) for detailed incident reports and post-mortems.
 
 ## Contributing
 
