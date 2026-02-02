@@ -10,7 +10,7 @@
 
 ## Executive Summary
 
-On February 2, 2026, GitHub Actions experienced a global outage affecting hosted runner provisioning. Workflows in this repository failed to start due to runner acquisition errors. The root cause was traced to an upstream Azure infrastructure issue (Microsoft-managed storage account ACL misconfiguration affecting VM scale operations). 
+On February 2, 2026, GitHub Actions experienced a global outage affecting hosted runner provisioning. Workflows in this repository failed to start due to runner acquisition errors. GitHub Status reported failures due to an upstream provider issue, with Azure Status showing correlated VM management disruptions during the same window. 
 
 **No code defects were involved.** The repository's IaC templates and Python automation were validated locally during the incident window, confirming code correctness independent of CI availability.
 
@@ -48,9 +48,9 @@ On February 2, 2026, GitHub Actions experienced a global outage affecting hosted
 ### Failure Chain
 
 ```
-Microsoft Azure Storage Account ACL Misconfiguration
+Upstream Azure infrastructure issues (reported by status pages)
     ↓
-Azure VM Scale Set operations failed
+Azure VM management operations affected
     ↓
 GitHub Actions could not provision hosted runners (ubuntu-latest)
     ↓
@@ -68,10 +68,10 @@ Workflow jobs failed at runner acquisition (before any code executed)
 
 | Layer | Owner | Status |
 |-------|-------|--------|
-| Application Code (Bicep, Python) | Repository owner | ✅ Validated correct |
-| CI Workflow Definition (.yml) | Repository owner | ✅ Correct syntax |
-| GitHub Actions Service | GitHub | ❌ Failed (runner provisioning) |
-| VM Infrastructure | Microsoft Azure | ❌ Failed (ACL misconfiguration) |
+| Application Code (Bicep, Python) | Repository owner | Validated correct |
+| CI Workflow Definition (.yml) | Repository owner | Correct syntax |
+| GitHub Actions Service | GitHub | Failed (runner provisioning) |
+| VM Infrastructure | Microsoft Azure | Reported issues via Azure Status |
 
 **Conclusion:** This was an infrastructure-level failure outside repository control. No code changes were required for resolution.
 

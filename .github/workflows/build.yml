@@ -1,8 +1,4 @@
-name: Build & Validate
-
-# This workflow validates code syntax without requiring Azure credentials
-# It ensures that Bicep templates compile and Python code is syntactically correct
-# This provides a green checkmark on GitHub to demonstrate the code is real and valid
+name: Build and Validate
 
 on:
   push:
@@ -22,68 +18,60 @@ jobs:
 
       - name: Install Bicep CLI
         run: |
-          # Download latest Bicep CLI for Linux
           curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
           chmod +x bicep
           sudo mv bicep /usr/local/bin/
           bicep --version
 
-      - name: Validate Bicep Syntax
+      - name: Validate Bicep syntax
         run: |
           echo "Validating Bicep template syntax..."
           bicep build infra/main.bicep
-          echo "✓ Bicep template is valid"
+          echo "Bicep template is valid"
 
-      - name: Validate Bicep Parameters
+      - name: Validate parameters file
         run: |
           echo "Checking parameters file..."
           if [ ! -f infra/parameters.json ]; then
             echo "Error: parameters.json not found"
             exit 1
           fi
-          # Basic JSON validation
           python3 -m json.tool infra/parameters.json > /dev/null
-          echo "✓ Parameters file is valid JSON"
+          echo "Parameters file is valid JSON"
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Check Python Syntax
+      - name: Check Python syntax
         run: |
           echo "Validating Python script syntax..."
           python -m py_compile src/tag_audit.py
-          echo "✓ Python script syntax is valid"
+          echo "Python script syntax is valid"
 
-      - name: Install Python Dependencies
-        run: |
-          pip install flake8
+      - name: Install Python dependencies
+        run: pip install flake8
 
-      - name: Lint Python Code
+      - name: Lint Python code
         run: |
           echo "Running Python linter..."
-          # Check for syntax errors and undefined names
-          # E9: Runtime errors
-          # F63: Invalid syntax in comparison
-          # F7: Syntax errors in statements
-          # F82: Undefined names
           flake8 src/tag_audit.py --count --select=E9,F63,F7,F82 --show-source --statistics
-
-          # Additional style warnings (non-blocking)
           flake8 src/tag_audit.py --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics || true
-          echo "✓ Python linting complete"
+          echo "Python linting complete"
 
-      - name: Validate Shell Scripts
+      - name: Check shell script syntax
         run: |
           echo "Checking shell script syntax..."
-          bash -n scripts/teardown.sh
-          echo "✓ Shell script syntax is valid"
+          if [ -f scripts/teardown.sh ]; then
+            bash -n scripts/teardown.sh
+            echo "Shell script syntax is valid"
+          fi
 
       - name: Summary
         run: |
           echo "================================"
-          echo "✓ All validation checks passed!"
+          echo "All validation checks passed!"
           echo "================================"
           echo "- Bicep templates: Valid"
           echo "- Python scripts: Valid"

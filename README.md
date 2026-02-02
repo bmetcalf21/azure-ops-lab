@@ -16,25 +16,23 @@ A practical Azure cloud operations lab demonstrating infrastructure-as-code, RBA
 
 ## Architecture
 
-```
-Azure Subscription
-â
-âââ Resource Group: azure-ops-lab-rg
-    â
-    âââ App Service Plan (F1 Free Tier)
-    â   â
-    â   âââ Web App (Python 3.9+)
-    â       âââ Application Insights â
-    â                                  â
-    âââ Storage Account                â
-    â   (Standard_LRS)                 â
-    â                                  â
-    âââ Log Analytics Workspace â âââââ
-    â
-    âââ RBAC: Contributor Role Assignment
-    â
-    âââ Tags: environment=lab, owner=brandon-metcalf, project=azure-ops-lab
-```
+**Resource Group:** azure-ops-lab-rg
+
+**Compute & Web:**
+- App Service Plan (F1 Free Tier)
+  - Web App (Python 3.11, Linux)
+  - System-assigned managed identity
+
+**Storage:**
+- Storage Account (Standard_LRS, StorageV2)
+
+**Observability:**
+- Application Insights (connected to all resources)
+- Log Analytics Workspace (centralized logging)
+
+**Governance:**
+- RBAC: Contributor role assignment (Web App identity -> Resource Group)
+- Tags: environment=lab, owner=brandon-metcalf, project=azure-ops-lab
 
 ## What's Implemented
 
@@ -192,20 +190,20 @@ Tags enable:
 
 ```
 azure-ops-lab/
-âââ README.md                    # This file
-âââ docs/
-â   âââ incidents/              # Incident reports and RCAs
-âââ infra/
-â   âââ main.bicep              # Infrastructure as Code definitions
-â   âââ parameters.json         # Deployment parameters
-âââ src/
-â   âââ tag_audit.py            # Compliance auditing tool
-âââ scripts/
-â   âââ teardown.sh             # Resource cleanup script
-âââ .github/
-    âââ workflows/
-        âââ build.yml           # Syntax validation (no Azure creds)
-        âââ deploy.yml          # Deployment workflow (manual)
++-- README.md                    # This file
++-- docs/
+|   +-- incidents/               # Incident reports and RCAs
++-- infra/
+|   +-- main.bicep               # Infrastructure as Code definitions
+|   +-- parameters.json          # Deployment parameters
++-- src/
+|   +-- tag_audit.py             # Compliance auditing tool
++-- scripts/
+|   +-- teardown.sh              # Resource cleanup script
++-- .github/
+    +-- workflows/
+        +-- build.yml            # Syntax validation (no Azure creds)
+        +-- deploy.yml           # Deployment workflow (manual)
 ```
 
 ## Incident History
@@ -214,7 +212,7 @@ This project is maintained as a production-like environment. Real operational in
 
 | Date | Incident | Impact | Status |
 |------|----------|--------|--------|
-| 2026-02-02 | [GitHub Actions Platform Outage](docs/incidents/2026-02-02-github-actions-platform-outage.md) | CI delayed ~6hrs (upstream Azure issue) | âResolved |
+| 2026-02-02 | [GitHub Actions Platform Outage](docs/incidents/2026-02-02-github-actions-platform-outage.md) | CI delayed ~6hrs (upstream Azure issue) | Resolved |
 
 See [docs/incidents/](docs/incidents/) for detailed incident reports and post-mortems.
 
