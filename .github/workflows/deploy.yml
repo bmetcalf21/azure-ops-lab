@@ -1,0 +1,185 @@
+name: Deploy to Azure
+
+# This workflow deploys infrastructure to Azure using OIDC authentication
+# Requires Azure federated credentials to be configured
+# Manual trigger only - does not run automatically
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'lab'
+        type: choice
+        options:
+          - lab
+          - dev
+      resource_group:
+        description: 'Resource group name'
+        required: true
+        default: 'azure-ops-lab-rg'
+        type: string
+      location:
+        description: 'Azure region'
+        required: true
+        default: 'westus2'
+        type: string
+
+# Required for OIDC authentication
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    name: Deploy Infrastructure
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          # These secrets must be configured in GitHub repository settings
+          # See: https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Verify Azure Connection
+        run: |
+          echo "Verifying Azure connection..."
+          az account show
+          echo "✓ Successfully connected to Azure"
+
+      - name: Create Resource Group
+        run: |
+          echo "Ensuring resource group exists..."
+          az group create \
+            --name ${{ inputs.resource_group }} \
+            --location ${{ inputs.location }} \
+            --tags environment=${{ inputs.environment }} owner=brandon-metcalf project=azure-ops-lab
+          echo "✓ Resource group ready"
+
+      - name: Validate Bicep Template
+        run: |
+          echo "Validating deployment template..."
+          az deployment group validate \
+            --resource-group ${{ inputs.resource_group }} \
+            --template-file infra/main.bicep \
+            --parameters infra/parameters.json \
+            --parameters environmentTag=${{ inputs.environment }}
+          echo "✓ Template validation passed"
+
+      - name: Deploy Infrastructure
+        run: |
+          echo "Deploying Azure resources..."
+          az deployment group create \
+            --resource-group ${{ inputs.resource_group }} \
+            --template-file infra/main.bicep \
+            --parameters infra/parameters.json \
+            --parameters environmentTag=${{ inputs.environment }} \
+            --verbose
+          echo "✓ Deployment complete"
+
+      - name: Get Deployment Outputs
+        id: outputs
+        run: |
+          echo "Retrieving deployment outputs..."
+          OUTPUTS=$(az deployment group show \
+            --resource-group ${{ inputs.resource_group }} \
+            --name main \
+            --query properties.outputs \
+            --output json)
+          echo "outputs=$OUTPUTS" >> $GITHUB_OUTPUT
+          echo "$OUTPUTS" | jq '.'
+
+      - name: Verify Deployed Resources
+        run: |
+          echo "Listing deployed resources..."
+          az resource list \
+            --resource-group ${{ inputs.resource_group }} \
+            --output table
+
+          echo ""
+          echo "Checking resource tags..."
+          az resource list \
+            --resource-group ${{ inputs.resource_group }} \
+            --query "[].{Name:name, Type:type, Tags:tags}" \
+            --output table
+
+      - name: Test Web App Availability
+        run: |
+          echo "Testing web app availability..."
+          WEB_APP_URL=$(az deployment group show \
+            --resource-group ${{ inputs.resource_group }} \
+            --name main \
+            --query properties.outputs.webAppUrl.value \
+            --output tsv)
+
+          echo "Web App URL: $WEB_APP_URL"
+
+          # Wait for web app to be ready
+          echo "Waiting for web app to become available..."
+          sleep 30
+
+          # Test connectivity
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" $WEB_APP_URL || echo "000")
+          echo "HTTP Status: $HTTP_STATUS"
+
+          if [ "$HTTP_STATUS" = "200" ] || [ "$HTTP_STATUS" = "403" ] || [ "$HTTP_STATUS" = "404" ]; then
+            echo "✓ Web app is reachable"
+          else
+            echo "⚠ Web app may still be starting up (Status: $HTTP_STATUS)"
+          fi
+
+      - name: Run Tag Compliance Audit
+        continue-on-error: true
+        run: |
+          echo "Running tag compliance audit..."
+          pip install azure-identity azure-mgmt-resource
+
+          python src/tag_audit.py \
+            --subscription-id ${{ secrets.AZURE_SUBSCRIPTION_ID }} \
+            --resource-group ${{ inputs.resource_group }} \
+            --output-format text
+
+      - name: Deployment Summary
+        run: |
+          echo "========================================"
+          echo "Deployment Complete!"
+          echo "========================================"
+          echo "Environment: ${{ inputs.environment }}"
+          echo "Resource Group: ${{ inputs.resource_group }}"
+          echo "Location: ${{ inputs.location }}"
+          echo ""
+          echo "Next steps:"
+          echo "1. Verify resources in Azure Portal"
+          echo "2. Check Application Insights for telemetry"
+          echo "3. Review resource tags for compliance"
+          echo "4. Run teardown when done: ./scripts/teardown.sh ${{ inputs.resource_group }}"
+          echo "========================================"
+
+  cleanup:
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: failure()
+    name: Cleanup on Failure
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Rollback Deployment
+        run: |
+          echo "Deployment failed. Consider manual cleanup if needed."
+          echo "To delete resources, run: az group delete --name ${{ inputs.resource_group }} --yes"

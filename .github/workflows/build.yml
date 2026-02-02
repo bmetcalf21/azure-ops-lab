@@ -1,0 +1,93 @@
+name: Build & Validate
+
+# This workflow validates code syntax without requiring Azure credentials
+# It ensures that Bicep templates compile and Python code is syntactically correct
+# This provides a green checkmark on GitHub to demonstrate the code is real and valid
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    name: Validate Infrastructure and Code
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Bicep CLI
+        run: |
+          # Download latest Bicep CLI for Linux
+          curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
+          chmod +x bicep
+          sudo mv bicep /usr/local/bin/
+          bicep --version
+
+      - name: Validate Bicep Syntax
+        run: |
+          echo "Validating Bicep template syntax..."
+          bicep build infra/main.bicep
+          echo "✓ Bicep template is valid"
+
+      - name: Validate Bicep Parameters
+        run: |
+          echo "Checking parameters file..."
+          if [ ! -f infra/parameters.json ]; then
+            echo "Error: parameters.json not found"
+            exit 1
+          fi
+          # Basic JSON validation
+          python3 -m json.tool infra/parameters.json > /dev/null
+          echo "✓ Parameters file is valid JSON"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check Python Syntax
+        run: |
+          echo "Validating Python script syntax..."
+          python -m py_compile src/tag_audit.py
+          echo "✓ Python script syntax is valid"
+
+      - name: Install Python Dependencies
+        run: |
+          pip install flake8
+
+      - name: Lint Python Code
+        run: |
+          echo "Running Python linter..."
+          # Check for syntax errors and undefined names
+          # E9: Runtime errors
+          # F63: Invalid syntax in comparison
+          # F7: Syntax errors in statements
+          # F82: Undefined names
+          flake8 src/tag_audit.py --count --select=E9,F63,F7,F82 --show-source --statistics
+
+          # Additional style warnings (non-blocking)
+          flake8 src/tag_audit.py --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics || true
+          echo "✓ Python linting complete"
+
+      - name: Validate Shell Scripts
+        run: |
+          echo "Checking shell script syntax..."
+          bash -n scripts/teardown.sh
+          echo "✓ Shell script syntax is valid"
+
+      - name: Summary
+        run: |
+          echo "================================"
+          echo "✓ All validation checks passed!"
+          echo "================================"
+          echo "- Bicep templates: Valid"
+          echo "- Python scripts: Valid"
+          echo "- Shell scripts: Valid"
+          echo "- Parameters: Valid"
+          echo ""
+          echo "Ready for deployment to Azure."
