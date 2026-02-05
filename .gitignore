@@ -51,3 +51,8 @@ main.json
 *.tmp
 *.temp
 .claude/
+
+# Local-only dev docs (not for public repo)
+CLAUDE.md
+docs/Azure setup Guide.pdf
+docs/INTERVIEW_PREP_MASTER_PLAN.md
