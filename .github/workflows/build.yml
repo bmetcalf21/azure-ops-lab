@@ -63,10 +63,24 @@ jobs:
       - name: Check shell script syntax
         run: |
           echo "Checking shell script syntax..."
-          if [ -f scripts/teardown.sh ]; then
-            bash -n scripts/teardown.sh
-            echo "Shell script syntax is valid"
-          fi
+          for script in scripts/*.sh; do
+            if [ -f "$script" ]; then
+              echo "  Validating: $script"
+              bash -n "$script"
+            fi
+          done
+          echo "Shell script syntax is valid"
+
+      - name: Check PowerShell script syntax
+        run: |
+          echo "Checking PowerShell script syntax..."
+          for script in scripts/*.ps1; do
+            if [ -f "$script" ]; then
+              echo "  Validating: $script"
+              pwsh -Command "\$errors = \$null; \$null = [System.Management.Automation.Language.Parser]::ParseFile('$script', [ref]\$null, [ref]\$errors); if (\$errors.Count -gt 0) { \$errors | ForEach-Object { Write-Error \$_.Message }; exit 1 }"
+            fi
+          done
+          echo "PowerShell script syntax is valid"
 
       - name: Summary
         run: |
@@ -76,6 +90,7 @@ jobs:
           echo "- Bicep templates: Valid"
           echo "- Python scripts: Valid"
           echo "- Shell scripts: Valid"
+          echo "- PowerShell scripts: Valid"
           echo "- Parameters: Valid"
           echo ""
           echo "Ready for deployment to Azure."
