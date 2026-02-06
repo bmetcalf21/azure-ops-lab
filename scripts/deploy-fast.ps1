@@ -75,6 +75,34 @@ try {
     exit 1
 }
 
+# Ensure required resource providers are registered (idempotent, safe to run every time)
+# Note: registration requires subscription-level permissions. If running with
+# RG-scoped RBAC (e.g., OIDC Contributor at RG level), this may fail.
+# In that case, ask a subscription admin to register these providers once.
+$RequiredProviders = @("Microsoft.Web", "Microsoft.Storage", "Microsoft.Insights", "Microsoft.OperationalInsights", "Microsoft.Authorization")
+$RegFailed = $false
+Write-Host "Checking resource provider registrations..." -ForegroundColor Yellow
+foreach ($provider in $RequiredProviders) {
+    $state = & az provider show --namespace $provider --query "registrationState" -o tsv 2>$null
+    if ($state -eq "Registered") { continue }
+    Write-Host "  Registering $provider..."
+    & az provider register --namespace $provider --wait 2>$null | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "  WARNING: Could not register $provider (may lack subscription-level permissions)." -ForegroundColor Yellow
+        $RegFailed = $true
+    }
+}
+if ($RegFailed) {
+    Write-Host "Some providers could not be registered automatically." -ForegroundColor Yellow
+    Write-Host "Ask a subscription admin to run:"
+    Write-Host "  az provider register --namespace <provider>"
+    Write-Host "Continuing -- deployment may fail if providers are not registered."
+    Write-Host ""
+} else {
+    Write-Host "All resource providers registered." -ForegroundColor Green
+    Write-Host ""
+}
+
 # Check template files exist
 if (-not (Test-Path $TemplateFile)) {
     Write-Error "Template file not found: $TemplateFile"

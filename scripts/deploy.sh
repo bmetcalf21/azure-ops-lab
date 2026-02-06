@@ -85,6 +85,35 @@ if ! az account show &> /dev/null; then
     exit 1
 fi
 
+# Ensure required resource providers are registered (idempotent, safe to run every time)
+# Note: registration requires subscription-level permissions. If running with
+# RG-scoped RBAC (e.g., OIDC Contributor at RG level), this may fail.
+# In that case, ask a subscription admin to register these providers once.
+REQUIRED_PROVIDERS=("Microsoft.Web" "Microsoft.Storage" "Microsoft.Insights" "Microsoft.OperationalInsights" "Microsoft.Authorization")
+REG_FAILED=false
+echo -e "${YELLOW}Checking resource provider registrations...${NC}"
+for provider in "${REQUIRED_PROVIDERS[@]}"; do
+    STATE=$(az provider show --namespace "$provider" --query "registrationState" -o tsv 2>/dev/null || echo "Unknown")
+    if [[ "$STATE" == "Registered" ]]; then
+        continue
+    fi
+    echo -e "  Registering ${provider}..."
+    if ! az provider register --namespace "$provider" --wait > /dev/null 2>&1; then
+        echo -e "  ${YELLOW}WARNING: Could not register ${provider} (may lack subscription-level permissions).${NC}"
+        REG_FAILED=true
+    fi
+done
+if [[ "$REG_FAILED" == true ]]; then
+    echo -e "${YELLOW}Some providers could not be registered automatically.${NC}"
+    echo "Ask a subscription admin to run:"
+    echo "  az provider register --namespace <provider>"
+    echo "Continuing — deployment may fail if providers are not registered."
+    echo ""
+else
+    echo -e "${GREEN}All resource providers registered.${NC}"
+    echo ""
+fi
+
 # Check template files exist
 if [[ ! -f "$TEMPLATE_FILE" ]]; then
     echo -e "${RED}Error: Template file not found: ${TEMPLATE_FILE}${NC}"

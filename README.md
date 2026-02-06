@@ -57,6 +57,20 @@ A practical Azure cloud operations lab demonstrating infrastructure-as-code, RBA
 - Python 3.9+ with pip
 - GitHub account (for Actions workflows)
 
+### One-Time Setup: Resource Provider Registration
+
+Azure requires resource providers to be registered before you can deploy resources of that type. Run this once per subscription:
+
+```bash
+az provider register --namespace Microsoft.Web
+az provider register --namespace Microsoft.Storage
+az provider register --namespace Microsoft.Insights
+az provider register --namespace Microsoft.OperationalInsights
+az provider register --namespace Microsoft.Authorization
+```
+
+Registration is idempotent (safe to run multiple times) and typically completes in under a minute. The deploy scripts (`scripts/deploy.sh`, `scripts/deploy-fast.ps1`) also check and register these automatically.
+
 ## Deployment Instructions
 
 ### 1. Setup Azure Resources
@@ -192,14 +206,18 @@ Tags enable:
 azure-ops-lab/
 +-- README.md                    # This file
 +-- docs/
+|   +-- architecture/
+|   |   +-- high-availability-design.md  # Multi-region HA design (design-only)
 |   +-- incidents/               # Incident reports and RCAs
 +-- infra/
 |   +-- main.bicep               # Infrastructure as Code definitions
 |   +-- parameters.json          # Deployment parameters
 +-- src/
-|   +-- tag_audit.py             # Compliance auditing tool
+|   +-- tag_audit.py             # Compliance auditing tool (Python)
 +-- scripts/
-|   +-- teardown.sh              # Resource cleanup script
+|   +-- deploy.sh                # Deploy with what-if gate (Bash)
+|   +-- deploy-fast.ps1          # Fast deploy for demos (PowerShell)
+|   +-- teardown.sh              # Resource cleanup script (Bash)
 +-- .github/
     +-- workflows/
         +-- build.yml            # Syntax validation (no Azure creds)
