@@ -24,7 +24,7 @@ param pythonVersion string = '3.11'
 var uniqueSuffix = uniqueString(resourceGroup().id)
 var appServicePlanName = 'asp-${projectTag}-${uniqueSuffix}'
 var webAppName = 'app-${projectTag}-${uniqueSuffix}'
-var storageAccountName = 'st${replace(projectTag, '-', '')}${uniqueSuffix}'
+var storageAccountName = take('st${replace(projectTag, '-', '')}${uniqueSuffix}', 24)
 var appInsightsName = 'appi-${projectTag}-${uniqueSuffix}'
 var logAnalyticsName = 'log-${projectTag}-${uniqueSuffix}'
 
