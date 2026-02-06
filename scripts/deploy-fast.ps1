@@ -142,7 +142,8 @@ Write-Host ""
 & az deployment group what-if `
     --resource-group $ResourceGroup `
     --template-file $TemplateFile `
-    --parameters $ParametersFile
+    --parameters $ParametersFile `
+    --parameters location=$Location
 if ($LASTEXITCODE -ne 0) {
     Write-Error "What-if preview failed. Aborting deployment."
     exit 1
@@ -157,6 +158,7 @@ Write-Host "[3/3] Deploying infrastructure..." -ForegroundColor Yellow
     --resource-group $ResourceGroup `
     --template-file $TemplateFile `
     --parameters $ParametersFile `
+    --parameters location=$Location `
     --output none
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Deployment failed."

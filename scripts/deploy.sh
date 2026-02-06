@@ -153,7 +153,8 @@ echo ""
 az deployment group what-if \
     --resource-group "$RESOURCE_GROUP" \
     --template-file "$TEMPLATE_FILE" \
-    --parameters "$PARAMETERS_FILE"
+    --parameters "$PARAMETERS_FILE" \
+    --parameters location="$LOCATION"
 echo ""
 
 # --- Step 3: Confirm deployment ---
@@ -179,6 +180,7 @@ az deployment group create \
     --resource-group "$RESOURCE_GROUP" \
     --template-file "$TEMPLATE_FILE" \
     --parameters "$PARAMETERS_FILE" \
+    --parameters location="$LOCATION" \
     --output none
 echo -e "${GREEN}Deployment succeeded.${NC}"
 echo ""
