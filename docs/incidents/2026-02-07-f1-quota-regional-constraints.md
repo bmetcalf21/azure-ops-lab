@@ -114,10 +114,10 @@ Azure regional capacity constraint. Free-tier SKUs have limited availability and
 
 | Action | Status |
 |--------|--------|
-| Update runtime defaults to eastus2 | In progress (edits landed, pending validation) |
-| Add RG region collision avoidance (region-suffixed RG names) | In progress (edits landed, pending validation) |
-| Add quota pre-check to `capture-evidence.sh` | In progress (script rewrite pending) |
-| Update CLAUDE.md Operational Region Policy | In progress (edits landed, pending validation) |
+| Update runtime defaults to eastus2 | Done (see git history) |
+| Add RG region collision avoidance (region-suffixed RG names) | Done (see git history) |
+| Add quota pre-check to `capture-evidence.sh` | Done (see git history) |
+| Update CLAUDE.md Operational Region Policy | Done (local, gitignored) |
 | File manual support request for westus F1 | Done (#2602070010001016) |
 | Revise region policy once westus approved | Pending support response |
 
