@@ -1,0 +1,11 @@
+Teardown requested: 2026-02-07 ~14:37 local
+Command: ./scripts/teardown.sh azure-ops-lab-rg-eastus2
+Resource group: azure-ops-lab-rg-eastus2
+Deletion mode: async (--no-wait)
+Script exit code: 0
+
+Post-teardown polling:
+  14:37 - az group exists: true (deletion in progress)
+  15:39 - az group exists: false (deletion confirmed)
+
+See 09-post-teardown-check.txt for final verification.

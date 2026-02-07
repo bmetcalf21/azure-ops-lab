@@ -1,0 +1,3 @@
+Name                             Tier    SKU
+-------------------------------  ------  -----
+asp-azure-ops-lab-b5rbnylysdouw  Free    F1

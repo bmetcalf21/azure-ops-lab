@@ -1,0 +1,4 @@
+Post-teardown verification
+Command: az group exists -n azure-ops-lab-rg-eastus2
+Timestamp: 2026-02-07 15:39:11 local
+Result: false

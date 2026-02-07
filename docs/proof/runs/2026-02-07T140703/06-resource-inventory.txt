@@ -1,0 +1,7 @@
+Name                              Type                                      Location
+--------------------------------  ----------------------------------------  ----------
+stazureopslabb5rbnylysdo          Microsoft.Storage/storageAccounts         eastus2
+log-azure-ops-lab-b5rbnylysdouw   Microsoft.OperationalInsights/workspaces  eastus2
+asp-azure-ops-lab-b5rbnylysdouw   Microsoft.Web/serverFarms                 eastus2
+appi-azure-ops-lab-b5rbnylysdouw  Microsoft.Insights/components             eastus2
+app-azure-ops-lab-b5rbnylysdouw   Microsoft.Web/sites                       eastus2

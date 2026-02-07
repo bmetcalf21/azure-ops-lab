@@ -1,0 +1,99 @@
+Note: The result may contain false positive predictions (noise).
+You can help us improve the accuracy of the result by opening an issue here: https://aka.ms/WhatIfIssues
+
+Resource and property changes are indicated with this symbol:
+  + Create
+
+The deployment will update the following scope:
+
+Scope: /subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-eastus2
+
+  + Microsoft.Authorization/roleAssignments/2509a137-c0b1-5bc2-b22d-2c8be5b704a5 [2022-04-01]
+
+      apiVersion:                  "2022-04-01"
+      id:                          "/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-eastus2/providers/Microsoft.Authorization/roleAssignments/2509a137-c0b1-5bc2-b22d-2c8be5b704a5"
+      name:                        "2509a137-c0b1-5bc2-b22d-2c8be5b704a5"
+      properties.principalId:      "[reference('/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-eastus2/providers/Microsoft.Web/sites/app-azure-ops-lab-b5rbnylysdouw', '2022-09-01', 'full').identity.principalId]"
+      properties.roleDefinitionId: "/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+      type:                        "Microsoft.Authorization/roleAssignments"
+
+  + Microsoft.Insights/components/appi-azure-ops-lab-b5rbnylysdouw [2020-02-02]
+
+      apiVersion:                     "2020-02-02"
+      id:                             "/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-eastus2/providers/Microsoft.Insights/components/appi-azure-ops-lab-b5rbnylysdouw"
+      kind:                           "web"
+      location:                       "eastus2"
+      name:                           "appi-azure-ops-lab-b5rbnylysdouw"
+      properties.Application_Type:    "web"
+      properties.IngestionMode:       "LogAnalytics"
+      properties.RetentionInDays:     30
+      properties.WorkspaceResourceId: "/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-eastus2/providers/Microsoft.OperationalInsights/workspaces/log-azure-ops-lab-b5rbnylysdouw"
+      tags.environment:               "lab"
+      tags.owner:                     "brandon-metcalf"
+      tags.project:                   "azure-ops-lab"
+      type:                           "Microsoft.Insights/components"
+
+  + Microsoft.OperationalInsights/workspaces/log-azure-ops-lab-b5rbnylysdouw [2022-10-01]
+
+      apiVersion:                 "2022-10-01"
+      id:                         "/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-eastus2/providers/Microsoft.OperationalInsights/workspaces/log-azure-ops-lab-b5rbnylysdouw"
+      location:                   "eastus2"
+      name:                       "log-azure-ops-lab-b5rbnylysdouw"
+      properties.retentionInDays: 30
+      properties.sku.name:        "PerGB2018"
+      tags.environment:           "lab"
+      tags.owner:                 "brandon-metcalf"
+      tags.project:               "azure-ops-lab"
+      type:                       "Microsoft.OperationalInsights/workspaces"
+
+  + Microsoft.Storage/storageAccounts/stazureopslabb5rbnylysdo [2023-01-01]
+
+      apiVersion:                           "2023-01-01"
+      id:                                   "/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-eastus2/providers/Microsoft.Storage/storageAccounts/stazureopslabb5rbnylysdo"
+      kind:                                 "StorageV2"
+      location:                             "eastus2"
+      name:                                 "stazureopslabb5rbnylysdo"
+      properties.accessTier:                "Hot"
+      properties.allowBlobPublicAccess:     false
+      properties.minimumTlsVersion:         "TLS1_2"
+      properties.networkAcls.bypass:        "AzureServices"
+      properties.networkAcls.defaultAction: "Allow"
+      properties.supportsHttpsTrafficOnly:  true
+      sku.name:                             "Standard_LRS"
+      tags.environment:                     "lab"
+      tags.owner:                           "brandon-metcalf"
+      tags.project:                         "azure-ops-lab"
+      type:                                 "Microsoft.Storage/storageAccounts"
+
+  + Microsoft.Web/serverfarms/asp-azure-ops-lab-b5rbnylysdouw [2022-09-01]
+
+      apiVersion:          "2022-09-01"
+      id:                  "/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-eastus2/providers/Microsoft.Web/serverfarms/asp-azure-ops-lab-b5rbnylysdouw"
+      kind:                "linux"
+      location:            "eastus2"
+      name:                "asp-azure-ops-lab-b5rbnylysdouw"
+      properties.reserved: true
+      sku.capacity:        1
+      sku.name:            "F1"
+      tags.environment:    "lab"
+      tags.owner:          "brandon-metcalf"
+      tags.project:        "azure-ops-lab"
+      type:                "Microsoft.Web/serverfarms"
+
+  + Microsoft.Web/sites/app-azure-ops-lab-b5rbnylysdouw [2022-09-01]
+
+      apiVersion:              "2022-09-01"
+      id:                      "/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-eastus2/providers/Microsoft.Web/sites/app-azure-ops-lab-b5rbnylysdouw"
+      identity:                "*******"
+      kind:                    "app,linux"
+      location:                "eastus2"
+      name:                    "app-azure-ops-lab-b5rbnylysdouw"
+      properties.httpsOnly:    true
+      properties.serverFarmId: "/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-eastus2/providers/Microsoft.Web/serverfarms/asp-azure-ops-lab-b5rbnylysdouw"
+      properties.siteConfig:   "*******"
+      tags.environment:        "lab"
+      tags.owner:              "brandon-metcalf"
+      tags.project:            "azure-ops-lab"
+      type:                    "Microsoft.Web/sites"
+
+Resource changes: 6 to create.

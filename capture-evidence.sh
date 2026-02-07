@@ -114,12 +114,15 @@ echo "[00] Capturing region support and precheck signals..."
     echo "Note: This is a supportability signal, not authoritative quota."
     echo "Actual quota enforcement occurs at what-if/deploy time."
     echo "========================================"
+    # az appservice list-locations returns display names (e.g., "East US 2")
+    # Resolve API name -> display name via az account list-locations for matching
+    F1_LOCATIONS=$(az appservice list-locations --sku F1 --query "[].name" -o tsv 2>/dev/null || echo "")
     for region in $QUOTA_CHECK_REGIONS; do
         echo ""
         echo "--- ${region} ---"
-        REGION_MATCH=$(az appservice list-locations --sku F1 --query "[?name=='${region}'].name" -o tsv 2>/dev/null || echo "")
-        if [[ -n "$REGION_MATCH" ]]; then
-            echo "F1 SKU: region supported"
+        DISPLAY_NAME=$(az account list-locations --query "[?name=='${region}'].displayName" -o tsv 2>/dev/null || echo "")
+        if [[ -n "$DISPLAY_NAME" ]] && echo "$F1_LOCATIONS" | grep -Fxi "$DISPLAY_NAME" > /dev/null; then
+            echo "F1 SKU: region supported (${DISPLAY_NAME})"
         else
             echo "F1 SKU: region not listed (may lack capacity or support)"
         fi
@@ -129,14 +132,15 @@ echo "Saved: ${RUN_DIR}/00-quota-status.txt"
 
 # --- Pre-flight: F1 region support fail-fast ---
 echo "[Pre-flight] Verifying F1 region support in ${LOCATION}..."
-F1_AVAILABLE=$(az appservice list-locations --sku F1 --query "[?name=='${LOCATION}'].name" -o tsv 2>/dev/null || echo "")
-if [[ -z "$F1_AVAILABLE" ]]; then
+F1_LOCATIONS_CHECK=$(az appservice list-locations --sku F1 --query "[].name" -o tsv 2>/dev/null || echo "")
+LOCATION_DISPLAY=$(az account list-locations --query "[?name=='${LOCATION}'].displayName" -o tsv 2>/dev/null || echo "")
+if [[ -z "$LOCATION_DISPLAY" ]] || ! echo "$F1_LOCATIONS_CHECK" | grep -Fxi "$LOCATION_DISPLAY" > /dev/null; then
     echo "Error: F1 App Service Plan does not appear to be supported in '${LOCATION}'."
     echo "Check precheck signals in: ${RUN_DIR}/00-quota-status.txt"
     echo "Try a different region: --location eastus2"
     exit 1
 fi
-echo "F1 region support confirmed in ${LOCATION}."
+echo "F1 region support confirmed in ${LOCATION} (${LOCATION_DISPLAY})."
 echo ""
 
 # --- Artifact 01: Region decision ---

@@ -1,0 +1,100 @@
+{
+  "summary": {
+    "audit_timestamp": "2026-02-07T22:35:42.139594Z",
+    "total_resources": 6,
+    "compliant_resources": 5,
+    "non_compliant_resources": 1,
+    "compliance_rate": 83.33,
+    "required_tags": [
+      "environment",
+      "owner",
+      "project"
+    ]
+  },
+  "results": [
+    {
+      "resource_name": "stazureopslabb5rbnylysdo",
+      "resource_type": "Microsoft.Storage/storageAccounts",
+      "resource_group": "azure-ops-lab-rg-eastus2",
+      "location": "eastus2",
+      "tags": {
+        "environment": "lab",
+        "owner": "brandon-metcalf",
+        "project": "azure-ops-lab"
+      },
+      "missing_tags": [],
+      "compliant": true,
+      "compliance_percentage": 100
+    },
+    {
+      "resource_name": "log-azure-ops-lab-b5rbnylysdouw",
+      "resource_type": "Microsoft.OperationalInsights/workspaces",
+      "resource_group": "azure-ops-lab-rg-eastus2",
+      "location": "eastus2",
+      "tags": {
+        "environment": "lab",
+        "owner": "brandon-metcalf",
+        "project": "azure-ops-lab"
+      },
+      "missing_tags": [],
+      "compliant": true,
+      "compliance_percentage": 100
+    },
+    {
+      "resource_name": "asp-azure-ops-lab-b5rbnylysdouw",
+      "resource_type": "Microsoft.Web/serverFarms",
+      "resource_group": "azure-ops-lab-rg-eastus2",
+      "location": "eastus2",
+      "tags": {
+        "environment": "lab",
+        "owner": "brandon-metcalf",
+        "project": "azure-ops-lab"
+      },
+      "missing_tags": [],
+      "compliant": true,
+      "compliance_percentage": 100
+    },
+    {
+      "resource_name": "appi-azure-ops-lab-b5rbnylysdouw",
+      "resource_type": "Microsoft.Insights/components",
+      "resource_group": "azure-ops-lab-rg-eastus2",
+      "location": "eastus2",
+      "tags": {
+        "environment": "lab",
+        "owner": "brandon-metcalf",
+        "project": "azure-ops-lab"
+      },
+      "missing_tags": [],
+      "compliant": true,
+      "compliance_percentage": 100
+    },
+    {
+      "resource_name": "app-azure-ops-lab-b5rbnylysdouw",
+      "resource_type": "Microsoft.Web/sites",
+      "resource_group": "azure-ops-lab-rg-eastus2",
+      "location": "eastus2",
+      "tags": {
+        "environment": "lab",
+        "owner": "brandon-metcalf",
+        "project": "azure-ops-lab"
+      },
+      "missing_tags": [],
+      "compliant": true,
+      "compliance_percentage": 100
+    },
+    {
+      "resource_name": "Application Insights Smart Detection",
+      "resource_type": "microsoft.insights/actiongroups",
+      "resource_group": "azure-ops-lab-rg-eastus2",
+      "location": "global",
+      "tags": {},
+      "missing_tags": [
+        "environment",
+        "owner",
+        "project"
+      ],
+      "compliant": false,
+      "compliance_percentage": 0
+    }
+  ]
+}
