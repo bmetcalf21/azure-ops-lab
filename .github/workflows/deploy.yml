@@ -14,12 +14,12 @@ on:
       resource_group:
         description: 'Resource group name'
         required: true
-        default: 'azure-ops-lab-rg'
+        default: 'azure-ops-lab-rg-eastus2'
         type: string
       location:
         description: 'Azure region'
         required: true
-        default: 'westus2'
+        default: 'eastus2'
         type: string
 
 permissions:

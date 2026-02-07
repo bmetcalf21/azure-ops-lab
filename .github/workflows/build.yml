@@ -63,7 +63,7 @@ jobs:
       - name: Check shell script syntax
         run: |
           echo "Checking shell script syntax..."
-          for script in scripts/*.sh; do
+          for script in scripts/*.sh capture-evidence.sh; do
             if [ -f "$script" ]; then
               echo "  Validating: $script"
               bash -n "$script"

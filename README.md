@@ -16,7 +16,7 @@ A practical Azure cloud operations lab demonstrating infrastructure-as-code, RBA
 
 ## Architecture
 
-**Resource Group:** azure-ops-lab-rg
+**Resource Group:** azure-ops-lab-rg-eastus2
 
 **Compute & Web:**
 - App Service Plan (F1 Free Tier)
@@ -77,7 +77,7 @@ Registration is idempotent (safe to run multiple times) and typically completes 
 
 Create a resource group:
 ```bash
-az group create --name azure-ops-lab-rg --location westus2
+az group create --name azure-ops-lab-rg-eastus2 --location eastus2
 ```
 
 ### 2. Deploy Infrastructure
@@ -85,7 +85,7 @@ az group create --name azure-ops-lab-rg --location westus2
 Deploy using Bicep:
 ```bash
 az deployment group create \
-  --resource-group azure-ops-lab-rg \
+  --resource-group azure-ops-lab-rg-eastus2 \
   --template-file infra/main.bicep \
   --parameters infra/parameters.json
 ```
@@ -94,7 +94,7 @@ az deployment group create \
 
 List deployed resources:
 ```bash
-az resource list --resource-group azure-ops-lab-rg --output table
+az resource list --resource-group azure-ops-lab-rg-eastus2 --output table
 ```
 
 ### 4. Run Tag Compliance Audit
@@ -108,7 +108,7 @@ Run the audit script:
 ```bash
 python src/tag_audit.py \
   --subscription-id YOUR_SUBSCRIPTION_ID \
-  --resource-group azure-ops-lab-rg \
+  --resource-group azure-ops-lab-rg-eastus2 \
   --output-format json
 ```
 
@@ -117,12 +117,12 @@ python src/tag_audit.py \
 To delete all resources and avoid ongoing charges:
 
 ```bash
-./scripts/teardown.sh azure-ops-lab-rg
+./scripts/teardown.sh azure-ops-lab-rg-eastus2
 ```
 
 Or manually:
 ```bash
-az group delete --name azure-ops-lab-rg --yes --no-wait
+az group delete --name azure-ops-lab-rg-eastus2 --yes --no-wait
 ```
 
 ## Governance
@@ -184,6 +184,8 @@ Tags enable:
 - Redeploy from IaC templates when needed
 - No persistent data in lab environment
 
+**Regional quota constraints:** As of Feb 7, 2026, operational default is eastus2 due to F1 quota availability. westus is planned secondary pending support approval (#2602070010001016). See [incident report](docs/incidents/2026-02-07-f1-quota-regional-constraints.md) for details.
+
 **Estimated monthly cost:** ~$0 with free tiers (if kept within limits)
 
 ## CI/CD Workflows
@@ -205,6 +207,7 @@ Tags enable:
 ```
 azure-ops-lab/
 +-- README.md                    # This file
++-- capture-evidence.sh          # Full proof cycle automation
 +-- docs/
 |   +-- architecture/
 |   |   +-- high-availability-design.md  # Multi-region HA design (design-only)
@@ -231,6 +234,7 @@ This project is maintained as a production-like environment. Real operational in
 | Date | Incident | Impact | Status |
 |------|----------|--------|--------|
 | 2026-02-02 | [GitHub Actions Platform Outage](docs/incidents/2026-02-02-github-actions-platform-outage.md) | CI delayed ~6hrs (upstream Azure issue) | Resolved |
+| 2026-02-07 | [F1 Quota Regional Constraints](docs/incidents/2026-02-07-f1-quota-regional-constraints.md) | Deployment region changed to eastus2 | Mitigated |
 
 See [docs/incidents/](docs/incidents/) for detailed incident reports and post-mortems.
 

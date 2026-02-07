@@ -11,10 +11,10 @@
     consistent authentication and command patterns with the rest of the repo.
 
 .PARAMETER ResourceGroup
-    Resource group name. Default: azure-ops-lab-rg
+    Resource group name. Default: azure-ops-lab-rg-eastus2
 
 .PARAMETER Location
-    Azure region. Default: westus2
+    Azure region. Default: eastus2
 
 .EXAMPLE
     ./scripts/deploy-fast.ps1
@@ -27,8 +27,8 @@
 
 [CmdletBinding()]
 param(
-    [string]$ResourceGroup = "azure-ops-lab-rg",
-    [string]$Location = "westus2"
+    [string]$ResourceGroup = "azure-ops-lab-rg-eastus2",
+    [string]$Location = "eastus2"
 )
 
 Set-StrictMode -Version Latest
@@ -39,7 +39,7 @@ $ParametersFile = "infra/parameters.json"
 $DeploymentName = "deploy-fast-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
 
 # --- Guard: Only allow known lab resource groups ---
-$AllowedResourceGroups = @("azure-ops-lab-rg")
+$AllowedResourceGroups = @("azure-ops-lab-rg", "azure-ops-lab-rg-eastus2")
 
 if ($ResourceGroup -notin $AllowedResourceGroups) {
     Write-Error ("Resource group '{0}' is not in the allowed list: {1}. " +
