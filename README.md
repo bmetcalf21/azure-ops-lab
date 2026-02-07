@@ -238,6 +238,12 @@ This project is maintained as a production-like environment. Real operational in
 
 See [docs/incidents/](docs/incidents/) for detailed incident reports and post-mortems.
 
+## Deployment Evidence
+
+Completed proof cycles are captured in `docs/proof/runs/`. Each run includes what-if output, deployment logs, SKU verification, tag audit, and teardown confirmation.
+
+**Latest run:** [2026-02-07T140703](docs/proof/runs/2026-02-07T140703/RUN_SUMMARY.md) — eastus2, F1 Free tier, $0 cost.
+
 ## Contributing
 
 This is a personal lab project for learning Azure operations. Feel free to fork and adapt for your own learning purposes.
