@@ -25,6 +25,7 @@
 | `budget-config.png` | Subscription budget alert configuration ($1 threshold) |
 | `daily-caps-loganalytics.png` | Log Analytics daily cap (0.5 GB/day) |
 | `daily-caps-appinsights.png` | App Insights daily cap (0.5 GB/day) |
+| `cost-analysis-mtd.png` | Cost Analysis (MTD) showing no cost reported for this period |
 
 ## Notes
 
