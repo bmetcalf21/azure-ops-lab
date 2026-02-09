@@ -41,11 +41,12 @@ A practical Azure cloud operations lab demonstrating infrastructure-as-code, RBA
 - **Python Tooling:** Tag compliance auditor using Azure SDK
 - **Governance Strategy:** Consistent tagging and RBAC patterns
 - **Teardown Automation:** Scripts for cost-effective resource cleanup
+- **Proof Cycle Execution:** Completed end-to-end deploy -> verify -> tag-audit -> teardown run with captured evidence (`docs/proof/runs/2026-02-07T140703/`), including F1 SKU verification and $0 cost controls
 
 ## What's Next
 
-- Deploy to live Azure subscription (requires OIDC federation setup)
-- Configure Application Insights alerts for performance/availability monitoring
+- Enable and validate the GitHub Actions OIDC deployment path end-to-end in this subscription (federated credentials + environment approvals)
+- Configure additional Application Insights alerts for performance/availability monitoring
 - Implement automated cost tracking and reporting
 - Add integration tests for deployed resources
 
@@ -164,12 +165,15 @@ Tags enable:
   - Query using KQL (Kusto Query Language)
   - Retention configured for cost optimization
 
+### Implemented Alerts
+
+- Budget threshold warning configured at $1 spend (see `docs/proof/runs/2026-02-07T140703/budget-config.png`)
+
 ### Planned Alerts
 
 - App Service response time > 2s
 - Storage Account throttling events
 - Failed authentication attempts
-- Budget threshold warnings
 
 ## Cost Control
 
