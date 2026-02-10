@@ -26,6 +26,7 @@ wheels/
 
 # Azure
 .azure/
+.azure-cli/
 *.publishsettings
 
 # IDE
