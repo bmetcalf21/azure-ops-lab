@@ -246,7 +246,7 @@ See [docs/incidents/](docs/incidents/) for detailed incident reports and post-mo
 
 Completed proof cycles are captured in `docs/proof/runs/`. Each run includes what-if output, deployment logs, SKU verification, tag audit, and teardown confirmation.
 
-**Latest run:** [2026-02-07T140703](docs/proof/runs/2026-02-07T140703/RUN_SUMMARY.md) — eastus2, F1 Free tier, $0 cost.
+**Latest run:** [2026-02-10T100120](docs/proof/runs/2026-02-10T100120/RUN_SUMMARY.md) — westus, F1 Free tier, $0 cost.
 
 ## Contributing
 
