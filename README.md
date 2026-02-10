@@ -16,7 +16,7 @@ A practical Azure cloud operations lab demonstrating infrastructure-as-code, RBA
 
 ## Architecture
 
-**Resource Group:** azure-ops-lab-rg-eastus2
+**Resource Group:** azure-ops-lab-rg-westus
 
 **Compute & Web:**
 - App Service Plan (F1 Free Tier)
@@ -78,7 +78,7 @@ Registration is idempotent (safe to run multiple times) and typically completes 
 
 Create a resource group:
 ```bash
-az group create --name azure-ops-lab-rg-eastus2 --location eastus2
+az group create --name azure-ops-lab-rg-westus --location westus
 ```
 
 ### 2. Deploy Infrastructure
@@ -86,7 +86,7 @@ az group create --name azure-ops-lab-rg-eastus2 --location eastus2
 Deploy using Bicep:
 ```bash
 az deployment group create \
-  --resource-group azure-ops-lab-rg-eastus2 \
+  --resource-group azure-ops-lab-rg-westus \
   --template-file infra/main.bicep \
   --parameters infra/parameters.json
 ```
@@ -95,7 +95,7 @@ az deployment group create \
 
 List deployed resources:
 ```bash
-az resource list --resource-group azure-ops-lab-rg-eastus2 --output table
+az resource list --resource-group azure-ops-lab-rg-westus --output table
 ```
 
 ### 4. Run Tag Compliance Audit
@@ -109,7 +109,7 @@ Run the audit script:
 ```bash
 python src/tag_audit.py \
   --subscription-id YOUR_SUBSCRIPTION_ID \
-  --resource-group azure-ops-lab-rg-eastus2 \
+  --resource-group azure-ops-lab-rg-westus \
   --output-format json
 ```
 
@@ -118,12 +118,12 @@ python src/tag_audit.py \
 To delete all resources and avoid ongoing charges:
 
 ```bash
-./scripts/teardown.sh azure-ops-lab-rg-eastus2
+./scripts/teardown.sh azure-ops-lab-rg-westus
 ```
 
 Or manually:
 ```bash
-az group delete --name azure-ops-lab-rg-eastus2 --yes --no-wait
+az group delete --name azure-ops-lab-rg-westus --yes --no-wait
 ```
 
 ## Governance
@@ -188,7 +188,7 @@ Tags enable:
 - Redeploy from IaC templates when needed
 - No persistent data in lab environment
 
-**Regional quota constraints:** As of Feb 7, 2026, operational default is eastus2 due to F1 quota availability. westus is planned secondary pending support approval (#2602070010001016). See [incident report](docs/incidents/2026-02-07-f1-quota-regional-constraints.md) for details.
+**Regional quota constraints:** As of Feb 10, 2026, operational default is westus (F1 quota approved). eastus2 is documented fallback. See [incident report](docs/incidents/2026-02-07-f1-quota-regional-constraints.md) for details.
 
 **Estimated monthly cost:** ~$0 with free tiers (if kept within limits)
 
@@ -238,7 +238,7 @@ This project is maintained as a production-like environment. Real operational in
 | Date | Incident | Impact | Status |
 |------|----------|--------|--------|
 | 2026-02-02 | [GitHub Actions Platform Outage](docs/incidents/2026-02-02-github-actions-platform-outage.md) | CI delayed ~6hrs (upstream Azure issue) | Resolved |
-| 2026-02-07 | [F1 Quota Regional Constraints](docs/incidents/2026-02-07-f1-quota-regional-constraints.md) | Deployment region changed to eastus2 | Mitigated |
+| 2026-02-07 | [F1 Quota Regional Constraints](docs/incidents/2026-02-07-f1-quota-regional-constraints.md) | Deployment region changed; westus now primary | Resolved |
 
 See [docs/incidents/](docs/incidents/) for detailed incident reports and post-mortems.
 

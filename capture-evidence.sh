@@ -6,9 +6,9 @@
 # timestamped artifacts for the docs/proof/runs/ folder.
 #
 # Usage:
-#   ./capture-evidence.sh                                    # Defaults (eastus2)
-#   ./capture-evidence.sh --location eastus2                 # Explicit region
-#   ./capture-evidence.sh --location westus --resource-group azure-ops-lab-rg-westus
+#   ./capture-evidence.sh                                    # Defaults (westus)
+#   ./capture-evidence.sh --location westus                  # Explicit region
+#   ./capture-evidence.sh --location eastus2 --resource-group azure-ops-lab-rg-eastus2
 #   ./capture-evidence.sh --keep-resources                   # Skip teardown
 #
 # Environment variables:
@@ -23,8 +23,8 @@
 set -euo pipefail
 
 # --- Defaults ---
-RG="azure-ops-lab-rg-eastus2"
-LOCATION="eastus2"
+RG="azure-ops-lab-rg-westus"
+LOCATION="westus"
 KEEP_RESOURCES=false
 QUOTA_CHECK_REGIONS="westus westus2 westus3 eastus2"
 
@@ -47,8 +47,8 @@ while [[ $# -gt 0 ]]; do
             echo "Usage: $0 [--resource-group NAME] [--location REGION] [--keep-resources]"
             echo ""
             echo "Options:"
-            echo "  --resource-group, -g   Resource group name (default: azure-ops-lab-rg-eastus2)"
-            echo "  --location, -l         Azure region (default: eastus2)"
+            echo "  --resource-group, -g   Resource group name (default: azure-ops-lab-rg-westus)"
+            echo "  --location, -l         Azure region (default: westus)"
             echo "  --keep-resources       Skip teardown (leave resources deployed)"
             echo "  --help, -h             Show this help message"
             echo ""
@@ -154,9 +154,9 @@ cat > "${RUN_DIR}/01-region-decision.md" <<REGIONEOF
 
 ## Rationale
 
-As of Feb 7, 2026, operational default is eastus2 due to F1 quota availability.
-westus is planned secondary pending support approval (#2602070010001016).
-westus2 and westus3 are currently unavailable for this subscription.
+As of Feb 10, 2026, operational default is westus (F1 quota approved).
+eastus2 is documented fallback (F1 quota also approved).
+westus2 and westus3 remain unavailable for this subscription.
 
 ## Precheck signals
 

@@ -25,8 +25,8 @@ CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 # Defaults
-RESOURCE_GROUP="azure-ops-lab-rg-eastus2"
-LOCATION="eastus2"
+RESOURCE_GROUP="azure-ops-lab-rg-westus"
+LOCATION="westus"
 TEMPLATE_FILE="infra/main.bicep"
 PARAMETERS_FILE="infra/parameters.json"
 DEPLOYMENT_NAME="deploy-$(date +%Y%m%d-%H%M%S)"
@@ -51,8 +51,8 @@ while [[ $# -gt 0 ]]; do
             echo "Usage: $0 [--resource-group NAME] [--location REGION] [--yes]"
             echo ""
             echo "Options:"
-            echo "  --resource-group, -g   Resource group name (default: azure-ops-lab-rg-eastus2)"
-            echo "  --location, -l         Azure region (default: eastus2)"
+            echo "  --resource-group, -g   Resource group name (default: azure-ops-lab-rg-westus)"
+            echo "  --location, -l         Azure region (default: westus)"
             echo "  --yes, -y              Skip confirmation prompt (CI mode)"
             echo "  --help, -h             Show this help message"
             exit 0

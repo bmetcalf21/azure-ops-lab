@@ -4,7 +4,7 @@
 **Date:** 2026-02-07
 **Duration:** ~2 days (Feb 5 discovery through Feb 7 mitigation)
 **Severity:** SEV-4 (Operational constraint; no outage, no cost impact)
-**Status:** Mitigated (westus support request pending)
+**Status:** Resolved (westus F1 quota approved Feb 10, 2026; now operational primary)
 
 ---
 
@@ -38,6 +38,7 @@ During Pay-As-You-Go subscription setup for the first live deployment proof cycl
 | Feb 7, 2026 | Requested F1 quota in westus — auto-quota request failed |
 | Feb 7, 2026, 11:47:12 AM | Filed manual support request for westus F1 quota (request #2602070010001016) |
 | Feb 7, 2026 | Updated all runtime defaults to eastus2; documented region policy |
+| Feb 10, 2026 | westus F1 quota confirmed available; updated all runtime defaults to westus |
 
 ---
 
@@ -90,9 +91,10 @@ Azure regional capacity constraint. Free-tier SKUs have limited availability and
 - Updated default resource group to `azure-ops-lab-rg-eastus2` to avoid RG location collisions
 - Updated region policy in `CLAUDE.md`
 
-### Pending
-- Manual support request #2602070010001016 for westus F1 quota (open as of Feb 7, 2026)
-- Once westus is approved, it becomes the planned secondary region
+### Resolution (Feb 10, 2026)
+- westus F1 quota confirmed available (0 of 1 used, per Azure Quotas portal)
+- All runtime defaults updated from eastus2 to westus
+- westus is now operational primary; eastus2 is documented fallback
 
 ---
 
@@ -119,7 +121,7 @@ Azure regional capacity constraint. Free-tier SKUs have limited availability and
 | Add quota pre-check to `capture-evidence.sh` | Done (see git history) |
 | Update CLAUDE.md Operational Region Policy | Done (local, gitignored) |
 | File manual support request for westus F1 | Done (#2602070010001016) |
-| Revise region policy once westus approved | Pending support response |
+| Revise region policy once westus approved | Done (Feb 10, 2026 — westus now operational primary) |
 
 ---
 
@@ -131,9 +133,12 @@ Azure regional capacity constraint. Free-tier SKUs have limited availability and
 
 **Action:** Checked quota across four regions, obtained approval in eastus2, updated all config/scripts/policy to use eastus2, filed support request for westus as planned secondary, and added quota pre-check to evidence automation.
 
-**Result:** Deployment unblocked in eastus2 with zero cost impact. All runtime defaults updated consistently. Operational region policy documented with date-stamped status. Support request pending for expanded regional coverage.
+**Result:** Deployment unblocked in eastus2 with zero cost impact. All runtime defaults updated consistently. Operational region policy documented with date-stamped status.
+
+**Update (Feb 10, 2026):** westus F1 quota confirmed available. All runtime defaults moved from eastus2 to westus. Successful deploy→verify→teardown proof cycle completed in westus. eastus2 retained as documented fallback. Incident fully resolved.
 
 ---
 
 *Report authored: 2026-02-07*
+*Updated: 2026-02-10*
 *Repository: [azure-ops-lab](https://github.com/bmetcalf21/azure-ops-lab)*
