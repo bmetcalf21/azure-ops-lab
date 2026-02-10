@@ -239,7 +239,7 @@ else
         TEARDOWN_STATUS="In progress (async delete initiated, RG still exists)"
     fi
     TEARDOWN_ARTIFACTS="| \`08-teardown-log.txt\` | Teardown execution log |
-| \`09-post-teardown-check.txt\` | RG deletion confirmation |"
+| \`09-post-teardown-check.txt\` | RG deletion status check |"
 fi
 
 # --- RUN_SUMMARY.md ---
