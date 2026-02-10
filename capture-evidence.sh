@@ -233,7 +233,11 @@ else
     RG_EXISTS=$(az group exists --name "$RG")
     echo "Resource group '${RG}' exists: ${RG_EXISTS}" > "${RUN_DIR}/09-post-teardown-check.txt"
     echo "Saved: ${RUN_DIR}/09-post-teardown-check.txt"
-    TEARDOWN_STATUS="Complete (RG exists: ${RG_EXISTS})"
+    if [[ "$RG_EXISTS" == "false" ]]; then
+        TEARDOWN_STATUS="Complete (RG deleted)"
+    else
+        TEARDOWN_STATUS="In progress (async delete initiated, RG still exists)"
+    fi
     TEARDOWN_ARTIFACTS="| \`08-teardown-log.txt\` | Teardown execution log |
 | \`09-post-teardown-check.txt\` | RG deletion confirmation |"
 fi
