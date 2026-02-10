@@ -1,0 +1,18 @@
+Region Support + Deployment Precheck Signals
+Captured: 2026-02-10T101157
+Subscription: Azure subscription 1 (76e2e133-b5b1-45a3-af55-c94c4055c61b)
+Note: This is a supportability signal, not authoritative quota.
+Actual quota enforcement occurs at what-if/deploy time.
+========================================
+
+--- westus ---
+F1 SKU: region supported (West US)
+
+--- westus2 ---
+F1 SKU: region supported (West US 2)
+
+--- westus3 ---
+F1 SKU: region supported (West US 3)
+
+--- eastus2 ---
+F1 SKU: region supported (East US 2)

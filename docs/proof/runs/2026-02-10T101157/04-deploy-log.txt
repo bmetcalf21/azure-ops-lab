@@ -1,0 +1,142 @@
+[0;36m================================[0m
+[0;36mAzure Ops Lab - Deploy Script[0m
+[0;36m================================[0m
+
+[1;33mChecking resource provider registrations...[0m
+[0;32mAll resource providers registered.[0m
+
+Subscription:    [0;32mAzure subscription 1[0m
+Subscription ID: [0;32m76e2e133-b5b1-45a3-af55-c94c4055c61b[0m
+Resource Group:  [0;32mazure-ops-lab-rg-westus[0m
+Location:        [0;32mwestus[0m
+Deployment:      [0;32mdeploy-20260210-101258[0m
+
+[1;33m[1/4] Ensuring resource group exists...[0m
+[0;32mResource group ready.[0m
+
+[1;33m[2/4] Running what-if preview (required)...[0m
+
+Note: The result may contain false positive predictions (noise).
+You can help us improve the accuracy of the result by opening an issue here: https://aka.ms/WhatIfIssues
+
+Resource and property changes are indicated with this symbol:
+  + Create
+
+The deployment will update the following scope:
+
+Scope: /subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-westus
+
+  + Microsoft.Authorization/roleAssignments/84f72936-c909-567b-899a-37332685060c [2022-04-01]
+
+      apiVersion:                  "2022-04-01"
+      id:                          "/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-westus/providers/Microsoft.Authorization/roleAssignments/84f72936-c909-567b-899a-37332685060c"
+      name:                        "84f72936-c909-567b-899a-37332685060c"
+      properties.principalId:      "[reference('/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-westus/providers/Microsoft.Web/sites/app-azure-ops-lab-pwqwms7zuxuqg', '2022-09-01', 'full').identity.principalId]"
+      properties.roleDefinitionId: "/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+      type:                        "Microsoft.Authorization/roleAssignments"
+
+  + Microsoft.Insights/components/appi-azure-ops-lab-pwqwms7zuxuqg [2020-02-02]
+
+      apiVersion:                     "2020-02-02"
+      id:                             "/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-westus/providers/Microsoft.Insights/components/appi-azure-ops-lab-pwqwms7zuxuqg"
+      kind:                           "web"
+      location:                       "westus"
+      name:                           "appi-azure-ops-lab-pwqwms7zuxuqg"
+      properties.Application_Type:    "web"
+      properties.IngestionMode:       "LogAnalytics"
+      properties.RetentionInDays:     30
+      properties.WorkspaceResourceId: "/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-westus/providers/Microsoft.OperationalInsights/workspaces/log-azure-ops-lab-pwqwms7zuxuqg"
+      tags.environment:               "lab"
+      tags.owner:                     "brandon-metcalf"
+      tags.project:                   "azure-ops-lab"
+      type:                           "Microsoft.Insights/components"
+
+  + Microsoft.OperationalInsights/workspaces/log-azure-ops-lab-pwqwms7zuxuqg [2022-10-01]
+
+      apiVersion:                 "2022-10-01"
+      id:                         "/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-westus/providers/Microsoft.OperationalInsights/workspaces/log-azure-ops-lab-pwqwms7zuxuqg"
+      location:                   "westus"
+      name:                       "log-azure-ops-lab-pwqwms7zuxuqg"
+      properties.retentionInDays: 30
+      properties.sku.name:        "PerGB2018"
+      tags.environment:           "lab"
+      tags.owner:                 "brandon-metcalf"
+      tags.project:               "azure-ops-lab"
+      type:                       "Microsoft.OperationalInsights/workspaces"
+
+  + Microsoft.Storage/storageAccounts/stazureopslabpwqwms7zuxu [2023-01-01]
+
+      apiVersion:                           "2023-01-01"
+      id:                                   "/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-westus/providers/Microsoft.Storage/storageAccounts/stazureopslabpwqwms7zuxu"
+      kind:                                 "StorageV2"
+      location:                             "westus"
+      name:                                 "stazureopslabpwqwms7zuxu"
+      properties.accessTier:                "Hot"
+      properties.allowBlobPublicAccess:     false
+      properties.minimumTlsVersion:         "TLS1_2"
+      properties.networkAcls.bypass:        "AzureServices"
+      properties.networkAcls.defaultAction: "Allow"
+      properties.supportsHttpsTrafficOnly:  true
+      sku.name:                             "Standard_LRS"
+      tags.environment:                     "lab"
+      tags.owner:                           "brandon-metcalf"
+      tags.project:                         "azure-ops-lab"
+      type:                                 "Microsoft.Storage/storageAccounts"
+
+  + Microsoft.Web/serverfarms/asp-azure-ops-lab-pwqwms7zuxuqg [2022-09-01]
+
+      apiVersion:          "2022-09-01"
+      id:                  "/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-westus/providers/Microsoft.Web/serverfarms/asp-azure-ops-lab-pwqwms7zuxuqg"
+      kind:                "linux"
+      location:            "westus"
+      name:                "asp-azure-ops-lab-pwqwms7zuxuqg"
+      properties.reserved: true
+      sku.capacity:        1
+      sku.name:            "F1"
+      tags.environment:    "lab"
+      tags.owner:          "brandon-metcalf"
+      tags.project:        "azure-ops-lab"
+      type:                "Microsoft.Web/serverfarms"
+
+  + Microsoft.Web/sites/app-azure-ops-lab-pwqwms7zuxuqg [2022-09-01]
+
+      apiVersion:              "2022-09-01"
+      id:                      "/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-westus/providers/Microsoft.Web/sites/app-azure-ops-lab-pwqwms7zuxuqg"
+      identity:                "*******"
+      kind:                    "app,linux"
+      location:                "westus"
+      name:                    "app-azure-ops-lab-pwqwms7zuxuqg"
+      properties.httpsOnly:    true
+      properties.serverFarmId: "/subscriptions/76e2e133-b5b1-45a3-af55-c94c4055c61b/resourceGroups/azure-ops-lab-rg-westus/providers/Microsoft.Web/serverfarms/asp-azure-ops-lab-pwqwms7zuxuqg"
+      properties.siteConfig:   "*******"
+      tags.environment:        "lab"
+      tags.owner:              "brandon-metcalf"
+      tags.project:            "azure-ops-lab"
+      type:                    "Microsoft.Web/sites"
+
+Resource changes: 6 to create.
+
+[1;33m[3/4] Auto-approved (--yes flag).[0m
+[1;33m[4/4] Deploying infrastructure...[0m
+[0;32mDeployment succeeded.[0m
+
+[1;33mVerifying App Service Plan SKU...[0m
+[0;32mApp Service Plan tier: Free (F1) -- OK[0m
+
+[0;32m================================[0m
+[0;32mDeployment Complete[0m
+[0;32m================================[0m
+Resource Group: azure-ops-lab-rg-westus
+Deployment:     deploy-20260210-101258
+
+Deployed resources:
+Name                              Type
+--------------------------------  ----------------------------------------
+stazureopslabpwqwms7zuxu          Microsoft.Storage/storageAccounts
+log-azure-ops-lab-pwqwms7zuxuqg   Microsoft.OperationalInsights/workspaces
+asp-azure-ops-lab-pwqwms7zuxuqg   Microsoft.Web/serverFarms
+appi-azure-ops-lab-pwqwms7zuxuqg  Microsoft.Insights/components
+app-azure-ops-lab-pwqwms7zuxuqg   Microsoft.Web/sites
+
+When finished, teardown with:
+  ./scripts/teardown.sh azure-ops-lab-rg-westus

@@ -1,0 +1,33 @@
+[1;33m================================[0m
+[1;33mAzure Ops Lab - Teardown Script[0m
+[1;33m================================[0m
+
+Current subscription: [0;32mAzure subscription 1[0m
+Subscription ID: [0;32m76e2e133-b5b1-45a3-af55-c94c4055c61b[0m
+
+Checking if resource group exists...
+
+[1;33mResources to be deleted:[0m
+Name                              Type
+--------------------------------  ----------------------------------------
+stazureopslabpwqwms7zuxu          Microsoft.Storage/storageAccounts
+log-azure-ops-lab-pwqwms7zuxuqg   Microsoft.OperationalInsights/workspaces
+asp-azure-ops-lab-pwqwms7zuxuqg   Microsoft.Web/serverFarms
+appi-azure-ops-lab-pwqwms7zuxuqg  Microsoft.Insights/components
+app-azure-ops-lab-pwqwms7zuxuqg   Microsoft.Web/sites
+
+[0;31mWARNING: This will permanently delete all resources in 'azure-ops-lab-rg-westus'.[0m
+[0;31mThis action cannot be undone.[0m
+
+
+[1;33mDeleting resource group: azure-ops-lab-rg-westus[0m
+This may take several minutes...
+[0;32mDeletion initiated successfully.[0m
+
+The resource group and all its resources are being deleted in the background.
+This process typically takes 5-10 minutes.
+
+To check deletion status, run:
+  az group show --name azure-ops-lab-rg-westus
+
+[0;32mTeardown complete![0m

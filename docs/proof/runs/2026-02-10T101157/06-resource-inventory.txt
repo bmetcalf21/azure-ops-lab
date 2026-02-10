@@ -1,0 +1,7 @@
+Name                              Type                                      Location
+--------------------------------  ----------------------------------------  ----------
+stazureopslabpwqwms7zuxu          Microsoft.Storage/storageAccounts         westus
+log-azure-ops-lab-pwqwms7zuxuqg   Microsoft.OperationalInsights/workspaces  westus
+asp-azure-ops-lab-pwqwms7zuxuqg   Microsoft.Web/serverFarms                 westus
+appi-azure-ops-lab-pwqwms7zuxuqg  Microsoft.Insights/components             westus
+app-azure-ops-lab-pwqwms7zuxuqg   Microsoft.Web/sites                       westus

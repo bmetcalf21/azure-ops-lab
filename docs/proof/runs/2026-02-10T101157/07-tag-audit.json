@@ -1,0 +1,86 @@
+{
+  "summary": {
+    "audit_timestamp": "2026-02-10T18:15:13.871620Z",
+    "total_resources": 5,
+    "compliant_resources": 5,
+    "non_compliant_resources": 0,
+    "compliance_rate": 100.0,
+    "required_tags": [
+      "environment",
+      "owner",
+      "project"
+    ]
+  },
+  "results": [
+    {
+      "resource_name": "stazureopslabpwqwms7zuxu",
+      "resource_type": "Microsoft.Storage/storageAccounts",
+      "resource_group": "azure-ops-lab-rg-westus",
+      "location": "westus",
+      "tags": {
+        "environment": "lab",
+        "owner": "brandon-metcalf",
+        "project": "azure-ops-lab"
+      },
+      "missing_tags": [],
+      "compliant": true,
+      "compliance_percentage": 100
+    },
+    {
+      "resource_name": "log-azure-ops-lab-pwqwms7zuxuqg",
+      "resource_type": "Microsoft.OperationalInsights/workspaces",
+      "resource_group": "azure-ops-lab-rg-westus",
+      "location": "westus",
+      "tags": {
+        "environment": "lab",
+        "owner": "brandon-metcalf",
+        "project": "azure-ops-lab"
+      },
+      "missing_tags": [],
+      "compliant": true,
+      "compliance_percentage": 100
+    },
+    {
+      "resource_name": "asp-azure-ops-lab-pwqwms7zuxuqg",
+      "resource_type": "Microsoft.Web/serverFarms",
+      "resource_group": "azure-ops-lab-rg-westus",
+      "location": "westus",
+      "tags": {
+        "environment": "lab",
+        "owner": "brandon-metcalf",
+        "project": "azure-ops-lab"
+      },
+      "missing_tags": [],
+      "compliant": true,
+      "compliance_percentage": 100
+    },
+    {
+      "resource_name": "appi-azure-ops-lab-pwqwms7zuxuqg",
+      "resource_type": "Microsoft.Insights/components",
+      "resource_group": "azure-ops-lab-rg-westus",
+      "location": "westus",
+      "tags": {
+        "environment": "lab",
+        "owner": "brandon-metcalf",
+        "project": "azure-ops-lab"
+      },
+      "missing_tags": [],
+      "compliant": true,
+      "compliance_percentage": 100
+    },
+    {
+      "resource_name": "app-azure-ops-lab-pwqwms7zuxuqg",
+      "resource_type": "Microsoft.Web/sites",
+      "resource_group": "azure-ops-lab-rg-westus",
+      "location": "westus",
+      "tags": {
+        "environment": "lab",
+        "owner": "brandon-metcalf",
+        "project": "azure-ops-lab"
+      },
+      "missing_tags": [],
+      "compliant": true,
+      "compliance_percentage": 100
+    }
+  ]
+}
